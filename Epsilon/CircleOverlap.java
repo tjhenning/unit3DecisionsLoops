@@ -20,9 +20,14 @@ public class CircleOverlap
       double distance=Math.sqrt(distancex+distancey);
       if (distance>(radius1+radius2)){
           System.out.println("The circles do not overlap.");
-        }
-      else {
+      }
+      else if (distance+radius1<radius2||distance+radius2<radius1)
+      {
+          System.out.println("The circles are mutually contained.");
+      }
+      else
+      {
           System.out.println("The circles overlap.");
-        }
+      }
    }
 }
