@@ -42,6 +42,25 @@ public class Magpie2
 		{
 			response = "Tell me more about your family.";
 		}
+		else if (statement.indexOf("cat") >= 0
+				|| statement.indexOf("dog") >= 0)
+		{
+			response = "Tell me more about your pets.";
+		}
+		else if (statement.indexOf("console") >= 0
+				|| statement.indexOf("xbox") >= 0
+				|| statement.indexOf("playstation") >= 0)
+		{
+			response = "PC MASTER RACE";
+		}
+		else if (statement.indexOf("Mr. Schmidt") >= 0)
+		{
+			response = "[insert complement here]";
+		}
+		else if (statement.length() < 1)
+		{
+			response = "C'mon, say something.";
+		}
 		else
 		{
 			response = getRandomResponse();
