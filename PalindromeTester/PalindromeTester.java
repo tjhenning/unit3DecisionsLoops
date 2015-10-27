@@ -14,7 +14,8 @@ public class PalindromeTester
    public static void main (String[] args)
    {
       String str, another = "y";
-      int left, right;
+      int left=0;
+      int right=0;
       Scanner s = new Scanner(System.in);
 
       while (another.equalsIgnoreCase("y")) // allows y or Y
@@ -22,25 +23,35 @@ public class PalindromeTester
          System.out.println ("Enter a potential palindrome:");
          str = s.nextLine();
 
+         str=str.replaceAll("\\s","");
+         str=str.replaceAll("\\.","");
+         str=str.replaceAll(",","");
+         str=str.replaceAll("!","");
+         str=str.replaceAll(";","");
+         str=str.replaceAll("/","");
          left = 0;
          right = str.length() - 1;
-
-         while (str.charAt(left) == str.charAt(right) && left < right)
-         {
-            left++;
-            right--;
-         }
-
+         //System.out.println(str.length());
+            while (str.charAt(left) == str.charAt(right)&&left<right)
+            {
+                left++;
+                right--;
+            }
+       
+        
+        
          System.out.println();
 
-         if (left < right)
+         if (left < right){
             System.out.println ("That string is NOT a palindrome.");
-         else
+        }
+         else{
             System.out.println ("That string IS a palindrome.");
+        }
 
          System.out.println();
          System.out.print ("Test another palindrome (y/n)? ");
          another = s.nextLine();
+        }
       }
    }
-}
