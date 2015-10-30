@@ -1,9 +1,10 @@
-
+import info.gridworld.grid.Location;
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import info.gridworld.actor.Actor;
+import info.gridworld.actor.Rock;
 
 /**
  * The test class GameOfLifeTest.
@@ -79,6 +80,7 @@ public class GameOfLifeTest
                 }
             }
         }
+        System.out.println(game.getActor(0,0));
     }
 
     @Test
@@ -86,8 +88,11 @@ public class GameOfLifeTest
     {
         /* verify that the actual pattern matches the expected pattern after 3 generations         *  
          */
-        
-        // ...
+        int COLS=5;
+        int ROWS=5;
+        GameOfLife game=new GameOfLife();
+         game.createNextGeneration();
+//         
     }
 }
 

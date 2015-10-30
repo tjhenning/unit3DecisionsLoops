@@ -4,6 +4,7 @@ import info.gridworld.actor.Rock;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
+import java.util.ArrayList;
 
 /**
  * Game of Life starter code. Demonstrates how to create and populate the game using the GridWorld framework.
@@ -40,7 +41,7 @@ public class GameOfLife
         
         // display the newly constructed and populated world
         world.show();
-        
+       // createNextGeneration();
     }
     
     /**
@@ -83,14 +84,43 @@ public class GameOfLife
      * @post    the world has been populated with a new grid containing the next generation
      * 
      */
-    private void createNextGeneration()
+    public void createNextGeneration()
     {
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
          */
+        Grid<Actor> grid = world.getGrid();
+         Location loc = new Location(1, 1);     
+        int around;
+        
+        for (int i=0; i<ROWS; i++)
+            {                
+                for (int i2=0; i2<COLS; i2++)
+                {
+                    System.out.println("1="+i+" 2="+i2);
+                    loc=new Location(i,i2);
+                    ArrayList<Location> around1= grid.getOccupiedAdjacentLocations(loc);
+                    around=around1.size();
+                    if (around<2||around>3)
+                    {
+                        System.out.println("count="+around);
+                        loc = new Location(i, i2);
+                        //world.remove(loc);                        
+                    }
+                    else if (getActor(i,i2)==null)
+                    {
+                        System.out.println();
+                        System.out.println("Placing.5555"+" Count="+around);
+                        loc = new Location(i, i2);
+                        Actor rockx = new Actor();
+                        grid.put(loc, rockx);
+                    }
+                    
+                }
+          }
         
         // create the grid, of the specified size, that contains Actors
-        Grid<Actor> grid = world.getGrid();
+       
         
         // insert magic here...
         
