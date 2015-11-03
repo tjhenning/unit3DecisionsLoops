@@ -91,8 +91,12 @@ public class GameOfLifeTest
         int COLS=5;
         int ROWS=5;
         GameOfLife game=new GameOfLife();
-         game.createNextGeneration();
-//         
+        for (int i=0;i<1;i++)
+        {
+             game.createNextGeneration();
+            
+        }
+        
     }
 }
 

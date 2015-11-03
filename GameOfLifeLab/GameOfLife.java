@@ -55,7 +55,7 @@ public class GameOfLife
     {
         // constants for the location of the three cells initially alive
         final int X1 = 1, Y1 = 0;
-        final int X2 = 0, Y2 = 2;
+        final int X2 = 1, Y2 = 1;
         final int X3 = 1, Y3 = 2;
 
         // the grid of Actors that maintains the state of the game
@@ -65,15 +65,18 @@ public class GameOfLife
         // create and add rocks (a type of Actor) to the three intial locations
         Rock rock1 = new Rock();
         Location loc1 = new Location(Y1, X1);
+        //world.add(loc1, rock1);
         grid.put(loc1, rock1);
-//         
-//         Rock rock2 = new Rock();
-//         Location loc2 = new Location(Y2, X2);
-//         grid.put(loc2, rock2);
-//         
-//         Rock rock3 = new Rock();
-//         Location loc3 = new Location(Y3, X3);
-//         grid.put(loc3, rock3);
+        
+        Rock rock2 = new Rock();
+        Location loc2 = new Location(Y2, X2);
+        //world.add(loc2, rock2);
+        grid.put(loc2, rock2);
+        
+        Rock rock3 = new Rock();
+        Location loc3 = new Location(Y3, X3);
+        //world.add(loc3, rock3);
+        grid.put(loc3, rock3);
     }
 
     /**
@@ -91,46 +94,52 @@ public class GameOfLife
          */
         System.out.println("\nSTART\n");
         Grid<Actor> grid = world.getGrid();
-        Location loc = new Location(1, 1);   
-        Location[] newCells=new Location[90];
+        Location loc = new Location(0, 1);           
         int around;
         Rock rocks= new Rock();
         int count=0;
-        
-        
-        for (int i2=0; i2<ROWS-1; i2++)
+        ArrayList<Location> newCells= new ArrayList();
+        ArrayList<Location> deadCells= new ArrayList();
+        for (int i2=0; i2<ROWS; i2++)
             {                
-                for (int i=0; i<COLS-1; i++)
+                for (int i=0; i<COLS; i++)
                 {
                     System.out.println("x="+i+" y="+i2);
                     loc=new Location(i2,i);
+
                     ArrayList<Location> around1= grid.getOccupiedAdjacentLocations(loc);
                     
                     around=around1.size();
                     if (around<2||around>3)
                     {
                         System.out.println("count="+around);
-                        if (getActor(i,i2)!=null)
+                        if (getActor(i2,i)!=null)
                         {
-                            loc = new Location(i2, i);
-                            world.remove(loc);           
+                            System.out.println("Removing. x="+i+" y="+i2);                            
+                            deadCells.add(loc);          
                         }
                     }
-                    else if (getActor(i,i2)==null)
+                    else //if (getActor(i,i2)==null)
                     {
                         System.out.println();
                         System.out.println("Placing."+" Count="+around);
-                        newCells[count] =new Location(i2, i);
+                        newCells.add(loc);
                         count+=1;
                     }
                     
                 }
           }
-        for (int i=0;i<newCells.length;i++)
+        for (int i=0;i<deadCells.size();i++)
+        {
+            System.out.println("Removing."+deadCells.get(i));
+            grid.remove(deadCells.get(i));    
+        }
+        for (int i=0;i<newCells.size();i++)
         {
             System.out.println("Got this far!");
-            grid.put(newCells[i], rocks);    
+            grid.put(newCells.get(i), rocks);    
         }
+        
     }
     
     /**
