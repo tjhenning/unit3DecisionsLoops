@@ -19,8 +19,8 @@ public class GameOfLife
     private ActorWorld world;
     
     // the game board will have 5 rows and 5 columns
-    private final int ROWS = 5;
-    private final int COLS = 5;
+    private final int ROWS = 100;
+    private final int COLS = 100;
     
     /**
      * Default constructor for objects of class GameOfLife
@@ -30,20 +30,12 @@ public class GameOfLife
      */
     public GameOfLife()
     {
-        // create the grid, of the specified size, that contains Actors
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
-        
-        // create a world based on the grid
         world = new ActorWorld(grid);
-        
-        // populate the game
-        populateGame();
-        
-        // display the newly constructed and populated world
+        populateGame();      
         world.show();
-       // createNextGeneration();
     }
-    
+
     /**
      * Creates the actors and inserts them into their initial starting positions in the grid
      *
@@ -54,29 +46,38 @@ public class GameOfLife
     private void populateGame()
     {
         // constants for the location of the three cells initially alive
-        final int X1 = 1, Y1 = 0;
-        final int X2 = 1, Y2 = 1;
+        final int X1 = 0, Y1 = 1;
+        final int X2 = 1, Y2 = 2;
         final int X3 = 1, Y3 = 2;
 
-        // the grid of Actors that maintains the state of the game
-        //  (alive cells contains actors; dead cells do not)
         Grid<Actor> grid = world.getGrid();
         
-        // create and add rocks (a type of Actor) to the three intial locations
-        Rock rock1 = new Rock();
-        Location loc1 = new Location(Y1, X1);
-        //world.add(loc1, rock1);
-        grid.put(loc1, rock1);
-        
-        Rock rock2 = new Rock();
-        Location loc2 = new Location(Y2, X2);
-        //world.add(loc2, rock2);
-        grid.put(loc2, rock2);
-        
-        Rock rock3 = new Rock();
-        Location loc3 = new Location(Y3, X3);
-        //world.add(loc3, rock3);
-        grid.put(loc3, rock3);
+                 Rock rock = new Rock();
+        //         Location loc1 = new Location(Y1, X1);
+        //         grid.put(loc1, rock1);
+        //         
+        //         Rock rock2 = new Rock();
+        //         Location loc2 = new Location(Y2, X2);
+        //         grid.put(loc2, rock2);
+        //         
+        //         Rock rock3 = new Rock();
+        //         Location loc3 = new Location(Y3, X3);
+        //         grid.put(loc3, rock3);        
+        //         
+        //         loc3 = new Location(2,2);
+        //         grid.put(loc3, rock3);
+        //         loc3 = new Location(0,2);
+        //         grid.put(loc3, rock3);
+        //         loc3 = new Location(1,2);
+        //         grid.put(loc3, rock3);
+        Location loc=new Location(6,1);
+        grid.put(loc, rock);
+        loc=new Location(6,2);
+        grid.put(loc, rock);
+        loc=new Location(7,1);
+        grid.put(loc, rock);
+        loc=new Location(7,2);
+        grid.put(loc, rock);
     }
 
     /**
@@ -119,7 +120,7 @@ public class GameOfLife
                             deadCells.add(loc);          
                         }
                     }
-                    else //if (getActor(i,i2)==null)
+                    else if (around==3)
                     {
                         System.out.println();
                         System.out.println("Placing."+" Count="+around);
@@ -139,7 +140,7 @@ public class GameOfLife
             System.out.println("Got this far!");
             grid.put(newCells.get(i), rocks);    
         }
-        
+        world.show();
     }
     
     /**
@@ -185,6 +186,17 @@ public class GameOfLife
     public static void main(String[] args)
     {
         GameOfLife game = new GameOfLife();
+        game.populateGame();
+        while (true)
+        {
+            try {
+                Thread.sleep(1000);                 //1000 milliseconds is one second.
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            game.createNextGeneration();
+           
+        }
     }
 
 }
