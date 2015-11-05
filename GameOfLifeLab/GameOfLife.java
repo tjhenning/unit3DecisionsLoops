@@ -18,11 +18,11 @@ public class GameOfLife
 {
     // the world comprised of the grid that displays the graphics for the game
     private ActorWorld world;
-    
-    // the game board will have 5 rows and 5 columns
-    private final int ROWS = 30;
-    private final int COLS = 50;
-    
+    private int ROWS = 30;
+    private int COLS = 40;
+    private Scanner s =new Scanner(System.in);
+    private int alreadyHappened=0;
+    public int cells=1;
     /**
      * Default constructor for objects of class GameOfLife
      * 
@@ -31,6 +31,10 @@ public class GameOfLife
      */
     public GameOfLife()
     {
+        System.out.print("How many rows (y) do you want there to be? ");
+        ROWS=s.nextInt();
+        System.out.print("How many columns (x) do you want there to be? ");
+        COLS=s.nextInt();
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
         world = new ActorWorld(grid);
         populateGame();      
@@ -46,31 +50,37 @@ public class GameOfLife
      */
     private void populateGame()
     {
-        // constants for the location of the three cells initially alive
 
-//         Scanner s=new Scanner(System.in);
-//         System.out.println("Tell me when you want to start.");
-//         s.next();
-        System.out.println("\nSTART\n");
+        
+        if (alreadyHappened==1)
+        {
+            System.out.println("Input any cells you want to input manually now.\nEnter any character to start.");
+            
+            s.next();
+            System.out.println("\nSTART\n");
+            alreadyHappened++;
+        } else {
+            alreadyHappened++;
+        }
+         
+        
         Grid<Actor> grid = world.getGrid();        
         Rock rock = new Rock();        
         Location loc=new Location(6,1);
         int x=0;
         int y=0;
         /** INSERT "SAMPLE CODE" HERE */
-//         grid.put(loc, rock);
+//        grid.put(loc, rock);
 //         loc=new Location(6,2);
 //         grid.put(loc, rock);
 //         loc=new Location(7,1);
 //         grid.put(loc, rock);
 //         loc=new Location(7,2);
 //         grid.put(loc, rock);
-        for (int i=0;i>7;i++)
-        {
-            loc=new Location(7,2+i);
-            grid.put(loc, rock);
-            System.out.println("why this no work");
-        }
+         loc=new Location(0,0);
+         grid.put(loc, rock);
+
+        
    }
 
     /**
@@ -86,7 +96,7 @@ public class GameOfLife
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
          */
-        
+        System.out.println("Cycling.");
         Grid<Actor> grid = world.getGrid();
         Location loc = new Location(0, 1);           
         int around;
@@ -98,29 +108,26 @@ public class GameOfLife
             {                
                 for (int i=0; i<COLS; i++)
                 {
-                    //System.out.println("x="+i+" y="+i2);
                     loc=new Location(i2,i);
 
                     ArrayList<Location> around1= grid.getOccupiedAdjacentLocations(loc);
                     
                     around=around1.size();
+                    System.out.println(around);
                     if (around<2||around>3)
-                    {
-                        //System.out.println("count="+around);
+                    {       
+                        System.out.println(around);
                         if (getActor(i2,i)!=null)
-                        {
-                            //System.out.println("Removing. x="+i+" y="+i2);                            
+                        {                          
                             deadCells.add(loc);          
                         }
                     }
-                    else if (around==3&&getActor(i2,i)!=null)
-                    {
-                        System.out.println();
-                        //System.out.println("Placing."+" Count="+around);
+                    else if (around==3)// && getActor(i2,i)!=null)
+                    {                        
+                        System.out.println("Placing new cell ");
                         newCells.add(loc);
                         count+=1;
-                    }
-                    
+                    }                    
                 }
           }
         for (int i=0;i<deadCells.size();i++)
@@ -133,6 +140,7 @@ public class GameOfLife
             System.out.println("Placing new cell at "+newCells.get(i));
             grid.put(newCells.get(i), rocks);    
         }
+        cells=newCells.size()+deadCells.size();
         world.show();
     }
     
@@ -170,8 +178,7 @@ public class GameOfLife
     {
         return COLS;
     }
-    
-    
+   
     /**
      * Creates an instance of this class. Provides convenient execution.
      *
@@ -179,16 +186,19 @@ public class GameOfLife
     public static void main(String[] args)
     {
         GameOfLife game = new GameOfLife();
+        
+        System.out.print("Input the number of miliseconds you want between generations: ");
+        Scanner s=new Scanner(System.in);
+        int seconds=s.nextInt();
         game.populateGame();
-        while (true)
+        while (game.cells!=0)
         {
             try {
-                Thread.sleep(300);                 //1000 milliseconds is one second.
+                Thread.sleep(seconds);                 
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
             game.createNextGeneration();
-           
         }
     }
 
