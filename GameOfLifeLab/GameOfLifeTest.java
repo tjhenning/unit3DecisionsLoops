@@ -56,7 +56,7 @@ public class GameOfLifeTest
          *  
          */
         
-        GameOfLife game = new GameOfLife();
+        GameOfLife game = new GameOfLife(40,40);
         final int ROWS = game.getNumRows();
         final int COLS = game.getNumCols();
 
@@ -88,15 +88,33 @@ public class GameOfLifeTest
     {
         /* verify that the actual pattern matches the expected pattern after 3 generations         *  
          */
-        int COLS=5;
-        int ROWS=5;
-        GameOfLife game=new GameOfLife();
-        for (int i=0;i<1;i++)
+        GameOfLife game=new GameOfLife(40,40);
+        for (int i=0;i<129;i++)
         {
-             game.createNextGeneration();
-            
+            //game.alreadyHappened=2;
+             game.createNextGeneration();            
         }
-        
+        final int ROWS = game.getNumRows();
+        final int COLS = game.getNumCols();
+        for(int row = 0; row < ROWS; row++)
+        {
+            for(int col = 0; col < COLS; col++)
+            {
+                // in this example, an alive cell has a non-null actor and a dead cell has a null actor
+                Actor cell = game.getActor(row, col);
+
+                // if the cell at the current row and col should be alive, assert that the actor is not null
+                if(     (row == 33 && col == 21) ||
+                        (row == 34 && col == 21))
+                {
+                    assertNotNull("expected alive cell at (" + row + ", " + col + ")", cell);
+                }
+                else // else, the cell should be dead; assert that the actor is null
+                {
+                    assertNull("expected dead cell at (" + row + ", " + col + ")", cell);
+                }
+            }
+        }
     }
 }
 

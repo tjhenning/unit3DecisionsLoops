@@ -21,7 +21,7 @@ public class GameOfLife
     private int ROWS = 30;
     private int COLS = 40;
     private Scanner s =new Scanner(System.in);
-    private int alreadyHappened=0;
+    public int alreadyHappened=0;
     public int cells=1;
     /**
      * Default constructor for objects of class GameOfLife
@@ -29,12 +29,10 @@ public class GameOfLife
      * @post    the game will be initialized and populated with the initial state of cells
      * 
      */
-    public GameOfLife()
+    public GameOfLife(int ROWS2, int COLS2)
     {
-        System.out.print("How many rows (y) do you want there to be? ");
-        ROWS=s.nextInt();
-        System.out.print("How many columns (x) do you want there to be? ");
-        COLS=s.nextInt();
+        ROWS=ROWS2;
+        COLS=COLS2;
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
         world = new ActorWorld(grid);
         populateGame();      
@@ -58,29 +56,42 @@ public class GameOfLife
             
             s.next();
             System.out.println("\nSTART\n");
-            alreadyHappened++;
+            alreadyHappened=3;
         } else {
-            alreadyHappened++;
+            alreadyHappened=1;
         }
-         
+        
         
         Grid<Actor> grid = world.getGrid();        
         Rock rock = new Rock();        
         Location loc=new Location(6,1);
-        int x=0;
-        int y=0;
-        /** INSERT "SAMPLE CODE" HERE */
-//        grid.put(loc, rock);
-//         loc=new Location(6,2);
-//         grid.put(loc, rock);
-//         loc=new Location(7,1);
-//         grid.put(loc, rock);
-//         loc=new Location(7,2);
-//         grid.put(loc, rock);
+        int x=20;
+        int y=20;
+        /** INSERT "SAMPLE CODE" UNDER HERE */
+        
          loc=new Location(0,0);
          grid.put(loc, rock);
-
-        
+         rock= new Rock();
+         
+         
+         
+        //if (alreadyHappened==2)
+        //{
+            loc=new Location(2+y,1+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(2+y,2+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,2+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,6+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,7+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,8+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(1+y,7+x);
+            grid.put(loc, rock);
+       // }        
    }
 
     /**
@@ -138,6 +149,7 @@ public class GameOfLife
         for (int i=0;i<newCells.size();i++)
         {
             System.out.println("Placing new cell at "+newCells.get(i));
+            rocks= new Rock();
             grid.put(newCells.get(i), rocks);    
         }
         cells=newCells.size()+deadCells.size();
@@ -185,14 +197,21 @@ public class GameOfLife
      */
     public static void main(String[] args)
     {
-        GameOfLife game = new GameOfLife();
-        
-        System.out.print("Input the number of miliseconds you want between generations: ");
         Scanner s=new Scanner(System.in);
+        System.out.print("How many rows (y) do you want there to be? ");
+        int ROWS2=s.nextInt();
+        System.out.print("How many columns (x) do you want there to be? ");
+        int COLS2=s.nextInt();
+        System.out.print("Input the number of miliseconds you want between generations: ");        
         int seconds=s.nextInt();
+        System.out.print("Input the number of generations: ");
+        int maxGens=s.nextInt();
+        GameOfLife game = new GameOfLife(ROWS2, COLS2);
         game.populateGame();
-        while (game.cells!=0)
+        int gens=0;
+        while (game.cells!=0&&gens<maxGens)
         {
+            gens+=1;
             try {
                 Thread.sleep(seconds);                 
             } catch(InterruptedException ex) {
@@ -200,6 +219,7 @@ public class GameOfLife
             }
             game.createNextGeneration();
         }
+        System.out.println(gens);
     }
 
 }
