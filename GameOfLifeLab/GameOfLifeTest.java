@@ -56,7 +56,7 @@ public class GameOfLifeTest
          *  
          */
         
-        GameOfLife game = new GameOfLife(40,40);
+        GameOfLife game = new GameOfLife(40,40,2,20,20);
         final int ROWS = game.getNumRows();
         final int COLS = game.getNumCols();
 
@@ -88,7 +88,7 @@ public class GameOfLifeTest
     {
         /* verify that the actual pattern matches the expected pattern after 3 generations         *  
          */
-        GameOfLife game=new GameOfLife(40,40);
+        GameOfLife game=new GameOfLife(40,40,2,20,20);
         for (int i=0;i<129;i++)
         {
             //game.alreadyHappened=2;

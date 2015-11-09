@@ -21,7 +21,7 @@ public class GameOfLife
     private int ROWS = 30;
     private int COLS = 40;
     private Scanner s =new Scanner(System.in);
-    public int alreadyHappened=0;
+    private int alreadyHappened;
     public int cells=1;
     /**
      * Default constructor for objects of class GameOfLife
@@ -29,13 +29,14 @@ public class GameOfLife
      * @post    the game will be initialized and populated with the initial state of cells
      * 
      */
-    public GameOfLife(int ROWS2, int COLS2)
+    public GameOfLife(int ROWS2, int COLS2, int choice,int x,int y)
     {
         ROWS=ROWS2;
         COLS=COLS2;
+        alreadyHappened=choice;
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
         world = new ActorWorld(grid);
-        populateGame();      
+        populateGame(x,y);      
         world.show();
     }
 
@@ -46,37 +47,35 @@ public class GameOfLife
      * @post    all actors that comprise the initial state of the game have been added to the grid
      * 
      */
-    private void populateGame()
+    private void populateGame(int x, int y)
     {
-
-        
+        Grid<Actor> grid = world.getGrid(); 
+        Location loc=new Location(6,1);
+        Rock rock = new Rock(); 
         if (alreadyHappened==1)
         {
+                    
+            loc=new Location(0,0);
+            grid.put(loc, rock);
             System.out.println("Input any cells you want to input manually now.\nEnter any character to start.");
             
             s.next();
             System.out.println("\nSTART\n");
-            alreadyHappened=3;
-        } else {
+            alreadyHappened=99;
+        } else if (alreadyHappened==0){
             alreadyHappened=1;
         }
         
         
-        Grid<Actor> grid = world.getGrid();        
-        Rock rock = new Rock();        
-        Location loc=new Location(6,1);
-        int x=20;
-        int y=20;
-        /** INSERT "SAMPLE CODE" UNDER HERE */
+               
+               
         
-         loc=new Location(0,0);
-         grid.put(loc, rock);
-         rock= new Rock();
+        rock= new Rock();
          
          
          
-        //if (alreadyHappened==2)
-        //{
+        if (alreadyHappened==2)
+        {
             loc=new Location(2+y,1+x);
             grid.put(loc, rock);rock= new Rock();
             loc=new Location(2+y,2+x);
@@ -91,7 +90,93 @@ public class GameOfLife
             grid.put(loc, rock);rock= new Rock();
             loc=new Location(1+y,7+x);
             grid.put(loc, rock);
-       // }        
+        }        
+        else if (alreadyHappened==3){
+            loc=new Location(11+y,6+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(11+y,7+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(11+y,8+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(12+y,5+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(12+y,9+x);
+            grid.put(loc, rock);rock= new Rock();
+        }
+        else if (alreadyHappened==4){
+            loc=new Location(5+y,1+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,1+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(5+y,2+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,2+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(5+y,11+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,11+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(7+y,11+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,12+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(8+y,12+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,13+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,14+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(9+y,13+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(9+y,14+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,15+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,16+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(8+y,16+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(5+y,17+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,17+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(7+y,17+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,18+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,21+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,21+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(5+y,21+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,22+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,22+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(5+y,22+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(2+y,23+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,23+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(1+y,25+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(2+y,25+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(6+y,25+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(7+y,25+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,34+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,34+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,35+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,35+x);
+            grid.put(loc, rock);rock= new Rock();
+        }
    }
 
     /**
@@ -202,12 +287,19 @@ public class GameOfLife
         int ROWS2=s.nextInt();
         System.out.print("How many columns (x) do you want there to be? ");
         int COLS2=s.nextInt();
+        System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: Custom\n2: Diehard\n3:Short Sequence\n4: Glider Gun\nChoice: ");
+        int choice=s.nextInt();
+        System.out.print("Input offset of X axis for seed in grid spots: ");        
+        int xOffset=s.nextInt();
+        System.out.print("Input offset of y axis for seed in grid spots: ");        
+        int yOffset=s.nextInt();
         System.out.print("Input the number of miliseconds you want between generations: ");        
         int seconds=s.nextInt();
         System.out.print("Input the number of generations: ");
         int maxGens=s.nextInt();
-        GameOfLife game = new GameOfLife(ROWS2, COLS2);
-        game.populateGame();
+
+        GameOfLife game = new GameOfLife(ROWS2, COLS2, choice,xOffset,yOffset);
+        game.populateGame(xOffset,yOffset);
         int gens=0;
         while (game.cells!=0&&gens<maxGens)
         {
