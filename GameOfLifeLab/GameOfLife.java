@@ -23,6 +23,7 @@ public class GameOfLife
     private Scanner s =new Scanner(System.in);
     private int alreadyHappened;
     public int cells=1;
+    private boolean rollover=true;
     /**
      * Default constructor for objects of class GameOfLife
      * 
@@ -57,6 +58,7 @@ public class GameOfLife
                     
             loc=new Location(0,0);
             grid.put(loc, rock);
+            world.show();
             System.out.println("Input any cells you want to input manually now.\nEnter any character to start.");
             
             s.next();
@@ -168,13 +170,13 @@ public class GameOfLife
             grid.put(loc, rock);rock= new Rock();
             loc=new Location(7+y,25+x);
             grid.put(loc, rock);rock= new Rock();
-            loc=new Location(3+y,34+x);
-            grid.put(loc, rock);rock= new Rock();
-            loc=new Location(4+y,34+x);
-            grid.put(loc, rock);rock= new Rock();
             loc=new Location(3+y,35+x);
             grid.put(loc, rock);rock= new Rock();
             loc=new Location(4+y,35+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(3+y,36+x);
+            grid.put(loc, rock);rock= new Rock();
+            loc=new Location(4+y,36+x);
             grid.put(loc, rock);rock= new Rock();
         }
    }
@@ -192,9 +194,11 @@ public class GameOfLife
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
          */
+        
         System.out.println("Cycling.");
         Grid<Actor> grid = world.getGrid();
-        Location loc = new Location(0, 1);           
+        Location loc = new Location(-1, 1);           
+        System.out.println(loc);
         int around;
         Rock rocks= new Rock();
         int count=0;
@@ -209,18 +213,49 @@ public class GameOfLife
                     ArrayList<Location> around1= grid.getOccupiedAdjacentLocations(loc);
                     
                     around=around1.size();
-                    System.out.println(around);
+                    if (rollover)
+                    {
+                        if (i+1==COLS)
+                        {
+                            loc=new Location(i2, -1);
+                            around1= grid.getOccupiedAdjacentLocations(loc);
+                            System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            around+=around1.size();
+                        }
+                        if (i==0)
+                        {
+                            loc=new Location(i2, COLS+1);
+                            around1= grid.getOccupiedAdjacentLocations(loc);
+                            System.out.println(loc);
+                            around+=around1.size();
+                        }
+                        if (i2+1==ROWS)
+                        {
+                            loc=new Location(-1, i);
+                            around1= grid.getOccupiedAdjacentLocations(loc);
+                            System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            around+=around1.size();
+                        }
+                        if (i2==0)
+                        {
+                            loc=new Location(ROWS+1, i);
+                            around1= grid.getOccupiedAdjacentLocations(loc);
+                            //System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            around+=around1.size();
+                        }
+                    }
+                    //System.out.println(around);
+                    loc=new Location(i2,i);
                     if (around<2||around>3)
-                    {       
-                        System.out.println(around);
-                        if (getActor(i2,i)!=null)
+                    {                              
+                        if (getActor(i2,i)!=null&&grid.isValid(loc))
                         {                          
                             deadCells.add(loc);          
                         }
                     }
                     else if (around==3)// && getActor(i2,i)!=null)
                     {                        
-                        System.out.println("Placing new cell ");
+                        //System.out.println("Placing new cell ");
                         newCells.add(loc);
                         count+=1;
                     }                    
@@ -233,7 +268,7 @@ public class GameOfLife
         }
         for (int i=0;i<newCells.size();i++)
         {
-            System.out.println("Placing new cell at "+newCells.get(i));
+            //System.out.println("Placing new cell at "+newCells.get(i));
             rocks= new Rock();
             grid.put(newCells.get(i), rocks);    
         }
@@ -289,29 +324,38 @@ public class GameOfLife
         int COLS2=s.nextInt();
         System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: Custom\n2: Diehard\n3:Short Sequence\n4: Glider Gun\nChoice: ");
         int choice=s.nextInt();
-        System.out.print("Input offset of X axis for seed in grid spots: ");        
-        int xOffset=s.nextInt();
-        System.out.print("Input offset of y axis for seed in grid spots: ");        
-        int yOffset=s.nextInt();
+        int xOffset;
+        int yOffset;
+        if (choice!=1){
+            System.out.print("Input offset of X axis for seed in grid spots: ");        
+            xOffset=s.nextInt();
+            System.out.print("Input offset of y axis for seed in grid spots: ");        
+            yOffset=s.nextInt();
+           }
+           else{
+               xOffset=0;
+               yOffset=0;
+            }
         System.out.print("Input the number of miliseconds you want between generations: ");        
         int seconds=s.nextInt();
         System.out.print("Input the number of generations: ");
         int maxGens=s.nextInt();
 
         GameOfLife game = new GameOfLife(ROWS2, COLS2, choice,xOffset,yOffset);
-        game.populateGame(xOffset,yOffset);
+        //game.populateGame(xOffset,yOffset);
         int gens=0;
         while (game.cells!=0&&gens<maxGens)
         {
             gens+=1;
+            if (seconds!=0){
             try {
                 Thread.sleep(seconds);                 
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
-            }
+            }}
             game.createNextGeneration();
         }
-        System.out.println(gens);
+        System.out.println(gens+" generation(s) played.");
     }
 
 }
