@@ -23,18 +23,21 @@ public class GameOfLife
     private Scanner s =new Scanner(System.in);
     private int alreadyHappened;
     public int cells=1;
-    private boolean rollover=true;
+    private String rollover="";
+    private String custom="";
     /**
      * Default constructor for objects of class GameOfLife
      * 
      * @post    the game will be initialized and populated with the initial state of cells
      * 
      */
-    public GameOfLife(int ROWS2, int COLS2, int choice,int x,int y)
+    public GameOfLife(int ROWS2, int COLS2, int choice,int x,int y,String roll,String edit)
     {
         ROWS=ROWS2;
         COLS=COLS2;
         alreadyHappened=choice;
+        custom=edit;
+        rollover=roll;
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
         world = new ActorWorld(grid);
         populateGame(x,y);      
@@ -53,19 +56,17 @@ public class GameOfLife
         Grid<Actor> grid = world.getGrid(); 
         Location loc=new Location(6,1);
         Rock rock = new Rock(); 
-        if (alreadyHappened==1)
+        if (custom.equals("go"))
         {
                     
-            loc=new Location(0,0);
-            grid.put(loc, rock);
             world.show();
             System.out.println("Input any cells you want to input manually now.\nEnter any character to start.");
             
             s.next();
             System.out.println("\nSTART\n");
-            alreadyHappened=99;
-        } else if (alreadyHappened==0){
-            alreadyHappened=1;
+            custom="n";
+        } else if (custom.equals("y")){
+            custom="go";
         }
         
         
@@ -75,7 +76,10 @@ public class GameOfLife
         rock= new Rock();
          
          
-         
+        if (alreadyHappened==1){
+           // loc=new Location(0,0);
+           // grid.put(loc, rock);            
+        }
         if (alreadyHappened==2)
         {
             loc=new Location(2+y,1+x);
@@ -94,15 +98,15 @@ public class GameOfLife
             grid.put(loc, rock);
         }        
         else if (alreadyHappened==3){
-            loc=new Location(11+y,6+x);
+            loc=new Location(y,1+x);
             grid.put(loc, rock);rock= new Rock();
-            loc=new Location(11+y,7+x);
+            loc=new Location(y,2+x);
             grid.put(loc, rock);rock= new Rock();
-            loc=new Location(11+y,8+x);
+            loc=new Location(y,3+x);
             grid.put(loc, rock);rock= new Rock();
-            loc=new Location(12+y,5+x);
+            loc=new Location(1+y,x);
             grid.put(loc, rock);rock= new Rock();
-            loc=new Location(12+y,9+x);
+            loc=new Location(1+y,4+x);
             grid.put(loc, rock);rock= new Rock();
         }
         else if (alreadyHappened==4){
@@ -198,7 +202,6 @@ public class GameOfLife
         System.out.println("Cycling.");
         Grid<Actor> grid = world.getGrid();
         Location loc = new Location(-1, 1);           
-        System.out.println(loc);
         int around;
         Rock rocks= new Rock();
         int count=0;
@@ -213,34 +216,34 @@ public class GameOfLife
                     ArrayList<Location> around1= grid.getOccupiedAdjacentLocations(loc);
                     
                     around=around1.size();
-                    if (rollover)
+                    if (rollover.equals("y"))
                     {
                         if (i+1==COLS)
                         {
                             loc=new Location(i2, -1);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                         if (i==0)
                         {
-                            loc=new Location(i2, COLS+1);
+                            loc=new Location(i2, COLS);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            System.out.println(loc);
+                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                         if (i2+1==ROWS)
                         {
                             loc=new Location(-1, i);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                         if (i2==0)
                         {
-                            loc=new Location(ROWS+1, i);
+                            loc=new Location(ROWS, i);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            //System.out.println(around1.size()+" thing at "+i+" "+i2);
+                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                     }
@@ -263,7 +266,7 @@ public class GameOfLife
           }
         for (int i=0;i<deadCells.size();i++)
         {
-            System.out.println("Removing "+deadCells.get(i));
+            //System.out.println("Removing "+deadCells.get(i));
             grid.remove(deadCells.get(i));    
         }
         for (int i=0;i<newCells.size();i++)
@@ -322,29 +325,35 @@ public class GameOfLife
         int ROWS2=s.nextInt();
         System.out.print("How many columns (x) do you want there to be? ");
         int COLS2=s.nextInt();
-        System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: Custom\n2: Diehard\n3:Short Sequence\n4: Glider Gun\nChoice: ");
+        System.out.print("Do you want rollover to be enabled?(y/n): ");
+        String roll=s.next().toLowerCase();
+        System.out.print("Do you want to edit the world before it runs? (y/n)");
+        String edit=s.next().toLowerCase();
+        System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: (almost) Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
         int choice=s.nextInt();
         int xOffset;
         int yOffset;
-        if (choice!=1){
+        if (choice!=1)
+        {
             System.out.print("Input offset of X axis for seed in grid spots: ");        
             xOffset=s.nextInt();
             System.out.print("Input offset of y axis for seed in grid spots: ");        
             yOffset=s.nextInt();
-           }
-           else{
+        }
+           else
+           {
                xOffset=0;
                yOffset=0;
-            }
+           }
         System.out.print("Input the number of miliseconds you want between generations: ");        
         int seconds=s.nextInt();
         System.out.print("Input the number of generations: ");
         int maxGens=s.nextInt();
 
-        GameOfLife game = new GameOfLife(ROWS2, COLS2, choice,xOffset,yOffset);
+        GameOfLife game = new GameOfLife(ROWS2, COLS2, choice,xOffset,yOffset,roll,edit);
         //game.populateGame(xOffset,yOffset);
         int gens=0;
-        while (game.cells!=0&&gens<maxGens)
+        while ((game.cells!=0||gens<4)&&gens<maxGens)
         {
             gens+=1;
             if (seconds!=0){
