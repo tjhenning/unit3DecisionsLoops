@@ -26,12 +26,20 @@ public class GameOfLife
     private String rollover="";
     private String custom="";
     /**
-     * Default constructor for objects of class GameOfLife
+     * Constructor for objects of class GameOfLife
      * 
      * @post    the game will be initialized and populated with the initial state of cells
      * 
+     *  @param   ROWS2   amount of rows the grid will contain
+     *  COLS2   amount of columns the grid will contain
+     *  choice   selection of which preset you want
+     *  x   Offset of X axis
+     *  y   Offset of Y axis
+     *  roll   selection of whether rollover is active
+     *  edit   selection of whether you edit the grid before it starts
+     *  
      */
-    public GameOfLife(int ROWS2, int COLS2, int choice,int x,int y,String roll,String edit)
+    public GameOfLife(int ROWS2, int COLS2, int choice,int x,int y, String roll, String edit)
     {
         ROWS=ROWS2;
         COLS=COLS2;
@@ -49,6 +57,8 @@ public class GameOfLife
      *
      * @pre     the grid has been created
      * @post    all actors that comprise the initial state of the game have been added to the grid
+     * @param   x   Offset of X axis
+     * y   Offset of Y axis
      * 
      */
     private void populateGame(int x, int y)
@@ -56,29 +66,29 @@ public class GameOfLife
         Grid<Actor> grid = world.getGrid(); 
         Location loc=new Location(6,1);
         Rock rock = new Rock(); 
+        System.out.println(custom);
         if (custom.equals("go"))
-        {
-                    
-            world.show();
+        {              
+            loc=new Location(0,0);
+                        
+            grid.remove(loc);
+            //world.show();
             System.out.println("Input any cells you want to input manually now.\nEnter any character to start.");
-            
             s.next();
             System.out.println("\nSTART\n");
             custom="n";
+            return;
         } else if (custom.equals("y")){
             custom="go";
         }
-        
-        
-               
-               
-        
+                
         rock= new Rock();
          
-         
-        if (alreadyHappened==1){
-           // loc=new Location(0,0);
-           // grid.put(loc, rock);            
+        if (alreadyHappened==1)
+        {
+            loc=new Location(0,0);
+            grid.put(loc, rock);  
+            
         }
         if (alreadyHappened==2)
         {
@@ -314,9 +324,11 @@ public class GameOfLife
         return COLS;
     }
    
-    /**
-     * Creates an instance of this class. Provides convenient execution.
+    /**     
+     * The method that starts it all- call to make grid
      *
+     * @pre     Must imput integers for the inputs that require them.             
+     * @post    Runs Conway's Game of Life with a good deal of customization.
      */
     public static void main(String[] args)
     {
@@ -327,7 +339,7 @@ public class GameOfLife
         int COLS2=s.nextInt();
         System.out.print("Do you want rollover to be enabled?(y/n): ");
         String roll=s.next().toLowerCase();
-        System.out.print("Do you want to edit the world before it runs? (y/n)");
+        System.out.print("Do you want to edit the world before it runs?(y/n): ");
         String edit=s.next().toLowerCase();
         System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: (almost) Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
         int choice=s.nextInt();
@@ -351,20 +363,22 @@ public class GameOfLife
         int maxGens=s.nextInt();
 
         GameOfLife game = new GameOfLife(ROWS2, COLS2, choice,xOffset,yOffset,roll,edit);
-        //game.populateGame(xOffset,yOffset);
+        game.populateGame(xOffset,yOffset);
         int gens=0;
-        while ((game.cells!=0||gens<4)&&gens<maxGens)
+        while ((game.cells!=0 || gens==0) && gens<maxGens)
         {
             gens+=1;
             if (seconds!=0){
-            try {
-                Thread.sleep(seconds);                 
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }}
+                try {
+                    Thread.sleep(seconds);                 
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             game.createNextGeneration();
         }
         System.out.println(gens+" generation(s) played.");
     }
-
 }
+
+
