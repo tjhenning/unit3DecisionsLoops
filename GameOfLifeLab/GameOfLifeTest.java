@@ -59,12 +59,10 @@ public class GameOfLifeTest
         GameOfLife game = new GameOfLife(6,6,3,0,0,"n","n");
         final int ROWS = game.getNumRows();
         final int COLS = game.getNumCols();
-        System.out.println("HERE");
         for(int row = 0; row < ROWS; row++)
         {
             for(int col = 0; col < COLS; col++)
-            {
-                System.out.println("HERE");
+            {         
                 // in this example, an alive cell has a non-null actor and a dead cell has a null actor
                 Actor cell = game.getActor(row, col);
 

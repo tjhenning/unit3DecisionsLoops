@@ -82,9 +82,14 @@ Submission:
 * I just put my requirements here?
 * -I'm doing these posthumously
 * 
+* REQUIREMENTS
+* 
 * User must be able to input size of grid.
 * Live cells are Rock objects, dead cells are null.
 * Be able to choose between a few preset pattern options
+* User inputs displacement from 0,0 for preset patterns
 * User inputs # of generations
 * User inputs time between generations
 * User must be able to choose if it wraps around or not
+* User must be able to choose if they want to edit the grid manually before running
+* User must be able to edit the grid manually

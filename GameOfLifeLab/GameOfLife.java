@@ -66,7 +66,6 @@ public class GameOfLife
         Grid<Actor> grid = world.getGrid(); 
         Location loc=new Location(6,1);
         Rock rock = new Rock(); 
-        System.out.println(custom);
         if (custom.equals("go"))
         {              
             loc=new Location(0,0);
@@ -232,32 +231,27 @@ public class GameOfLife
                         {
                             loc=new Location(i2, -1);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
-                            around+=around1.size();
+                             around+=around1.size();
                         }
                         if (i==0)
                         {
                             loc=new Location(i2, COLS);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                         if (i2+1==ROWS)
                         {
                             loc=new Location(-1, i);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
                             around+=around1.size();
                         }
                         if (i2==0)
                         {
                             loc=new Location(ROWS, i);
                             around1= grid.getOccupiedAdjacentLocations(loc);
-                            //System.out.println("At "+i2+" "+i+" has found "+ around1.size()+" at "+loc);
-                            around+=around1.size();
+                             around+=around1.size();
                         }
                     }
-                    //System.out.println(around);
                     loc=new Location(i2,i);
                     if (around<2||around>3)
                     {                              
@@ -266,9 +260,8 @@ public class GameOfLife
                             deadCells.add(loc);          
                         }
                     }
-                    else if (around==3)// && getActor(i2,i)!=null)
+                    else if (around==3)
                     {                        
-                        //System.out.println("Placing new cell ");
                         newCells.add(loc);
                         count+=1;
                     }                    
@@ -341,7 +334,7 @@ public class GameOfLife
         String roll=s.next().toLowerCase();
         System.out.print("Do you want to edit the world before it runs?(y/n): ");
         String edit=s.next().toLowerCase();
-        System.out.print("Select which seed you want to run it with.\nWARNING: If seed goes out of row/width boundaries it WILL crash!\n1: (almost) Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
+        System.out.print("Select which seed you want to run it with.\nWARNING: If seed goes out of row/width boundaries it WILL crash!\n1: Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
         int choice=s.nextInt();
         int xOffset;
         int yOffset;
