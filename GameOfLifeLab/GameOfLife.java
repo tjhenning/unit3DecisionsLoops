@@ -341,7 +341,7 @@ public class GameOfLife
         String roll=s.next().toLowerCase();
         System.out.print("Do you want to edit the world before it runs?(y/n): ");
         String edit=s.next().toLowerCase();
-        System.out.print("Select which seed you want to run it with.\nWarning: if seed goes out of row/width boundaries it will crash.\n1: (almost) Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
+        System.out.print("Select which seed you want to run it with.\nWARNING: If seed goes out of row/width boundaries it WILL crash!\n1: (almost) Blank\n2: Diehard\n3: Short Sequence\n4: Glider Gun\nChoice: ");
         int choice=s.nextInt();
         int xOffset;
         int yOffset;
